@@ -21,7 +21,7 @@ A Need object is a general object, which can be a requirement, a specification, 
 But all Need objects have some common data / functions. They have:
 
 * a project reference
-* an id
+* a key
 * a title
 * some content
 * some meta data, like status, tags
@@ -33,7 +33,7 @@ A Project object mostly contains rules, which assigned need objects must follow.
 
 It contains the following information:
 
-* an id
+* a key
 * a name
 * a description
 * configurations for Need objects
@@ -44,7 +44,7 @@ It contains the following information:
 ```json
 "projects": {
   "MY_PROJECT": {
-    "id": "MY_PROJECT",
+    "key": "MY_PROJECT",
     "name": "My first project with Open-Needs",
     "description": "Just used for some tests",
     "config": {},
@@ -52,7 +52,7 @@ It contains the following information:
     "needs": {
       "NEED_1": {
         "project": "MY_PROJECT",
-        "id": "NEED_1",
+        "key": "NEED_1",
         "title": "Example Need",
         "content": "Just some content as example",
         "status": "open",
@@ -61,7 +61,7 @@ It contains the following information:
       },
       "NEED_2": {
         "project": "MY_PROJECT",
-        "id": "NEED_2",
+        "key": "NEED_2",
         "title": "Another Example Need",
         "content": "",
         "status": "closed",
@@ -139,3 +139,53 @@ On top of this additional interfaces can be build.
 Possible interfaces may be: A REST or GraphQL API, IDE Extension, Static site generator interfaces, JSON exporter, WebViewer, ...
 
 Currently planned is the improvement of [Sphinx-Needs](https://sphinxcontrib-needs.readthedocs.io/en/latest/) to support Open-Needs.
+
+
+## Database schema
+Main tables:
+* Projects
+* Needs
+* Fields
+
+### Projects
+* id: unique id
+* key : unique key
+* title: string
+* description: string
+* configs: JSON dict
+* rules: JSON dict
+* needs: back_reference from Needs
+
+| id | key | title | description | configs | rules | needs |
+| --- | --- |--- | --- | --- | --- | --- |
+| 1 | SW_X | Module X Docs | SW Dev of module X | {configs.1;config.3} | {... } | [...] |
+
+### Needs
+Contains the main information of needs
+
+* id: unique id
+* key : key
+* project: reference to Projects
+* title: string
+* content: JSON dict (value, format)
+* fields: back_references from Fields
+
+
+| id | key | project | title | content | fields |
+| --- | --- | --- | --- | --- | --- | 
+| 1 | NEED_001 | Projects:1 | Use Python | {"value": "Use Python >3.7 for **module x**", "format": "markdown" | FIELDS:1, FIELD:321 |
+
+### Fields
+Contains the single fields of all the needs.
+
+* id: unique key
+* project: Reference to Projects
+* need: Reference to Needs
+* field: JSON dict (field name, field value, field type)
+
+| id | project | need | field |
+| --- | --- | --- | --- |
+| 1 | Projects:1 | Needs:1 | {"name": "status", "value":: "open", "type": "str" }|
+| 2 | Projects:2 | Needs:3 | {"name": "status", "value":: "closed", "type": "str" }|
+| 3 | Projects:1 | Needs:2 | {"name": "type", "value":: "Requirement", "type": "str" }|
+| 4 | Projects:1 | Needs:2 | {"name": "Price", "value":: 130.25, "type": "float" }|
