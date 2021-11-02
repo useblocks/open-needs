@@ -136,19 +136,6 @@ Interfaces are a way to access the data of Open-Needs.
 Open-Needs provides a Python-API only.
 On top of this additional interfaces can be build.
 
-Possible interfaces may be: A REST or GraphQL API, IDE Extension, Static site generator interfaces, ...
+Possible interfaces may be: A REST or GraphQL API, IDE Extension, Static site generator interfaces, JSON exporter, WebViewer, ...
 
 Currently planned is the improvement of [Sphinx-Needs](https://sphinxcontrib-needs.readthedocs.io/en/latest/) to support Open-Needs.
-
-
-
-
-
-
-
-
-
-
-
-
-
