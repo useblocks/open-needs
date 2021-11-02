@@ -27,6 +27,7 @@ But all Need objects have some common data / functions. They have:
 * some meta data, like status, tags
 * some references to other need objects, like links.
 
+
 ### Project object
 A Project object mostly contains rules, which assigned need objects must follow.
 
@@ -38,6 +39,40 @@ It contains the following information:
 * configurations for Need objects
 * rules for Need objects
 
+
+### Data JSON example
+```json
+"projects": {
+  "MY_PROJECT": {
+    "id": "MY_PROJECT",
+    "name": "My first project with Open-Needs",
+    "description": "Just used for some tests",
+    "config": {},
+    "rules": {},
+    "needs": {
+      "NEED_1": {
+        "project": "MY_PROJECT",
+        "id": "NEED_1",
+        "title": "Example Need",
+        "content": "Just some content as example",
+        "status": "open",
+        "tags": ["example", "awesome"],
+        "links": ["NEED_2"]
+      },
+      "NEED_2": {
+        "project": "MY_PROJECT",
+        "id": "NEED_2",
+        "title": "Another Example Need",
+        "content": "",
+        "status": "closed",
+        "tags": ["example"],
+        "links": []
+      }
+    }
+  }
+}
+
+```
 
 ## Philosophy 
 - Data is document based
@@ -99,7 +134,7 @@ Use cases may be: Collect metrics, check project rules before need creation, che
 ## Interfaces
 Interfaces are a way to access the data of Open-Needs.
 Open-Needs provides a Python-API only.
-On top of this, additional interfaces can be build.
+On top of this additional interfaces can be build.
 
 Possible interfaces may be: A REST or GraphQL API, IDE Extension, Static site generator interfaces, ...
 
